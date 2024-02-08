@@ -1,0 +1,75 @@
+
+" FUCK VI, that's for grandmoms
+
+" Enable type file detection. Vim will be able to try to detect the type of file in use.
+filetype on
+
+" Enable plugins and load plugin for the detected file type.
+filetype plugin on
+
+" Load an indent file for the detected file type.
+filetype indent on
+
+"Plugin install
+let g:doom_one_terminal_colors = v:true
+call plug#begin('~/.vim/plugged')
+Plug 'romgrk/doom-one.vim'
+"Plug 'https://github.com/joshdick/onedark.vim.git'
+call plug#end()
+
+"colorscheme
+syntax on
+colorscheme onedark
+
+"enable line numbers and number coloring
+set number relativenumber
+set cursorline
+hi cursorline cterm=none term=none
+autocmd WinEnter * setlocal cursorline
+autocmd WinLeave * setlocal nocursorline
+"selected line color
+highlight CursorLineNr cterm=bold ctermfg=49
+"non-selected line colors
+highlight! lineNr ctermfg=99
+
+"Set cursor appereance
+hi Cursor ctermfg=red ctermbg=None
+
+"disable using spaces for tabs spaces
+set noexpandtab
+set tabstop=4
+
+"always 16lines between the cursor and top, bottom of window
+set scrolloff=16
+
+"highlight matching charatcers during search, higlighting when typing
+"(incsearch)
+set incsearch
+set hlsearch
+set showmatch
+
+"show partial command you type in the last line of the screen
+set showcmd
+
+"show the mode you are already in on the last line
+set showmode
+
+"AUTOCOMPLETITION WHEN SEARCHING FOR FILES
+
+" Enable auto completion menu after pressing TAB.
+set wildmenu
+
+" Make wildmenu behave like similar to Bash completion.
+set wildmode=list:longest
+
+" There are certain files that we would never want to edit with Vim.
+" Wildmenu will ignore files with these extensions.
+set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
+
+" Commands after opening, setting two tabs, both with vsplits tabs, second tab
+" with terminal in it
+vsplit
+tab new
+vsplit
+tabprev
+

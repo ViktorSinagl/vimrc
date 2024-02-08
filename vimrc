@@ -1,0 +1,143 @@
+" FUCK VI, that's for grandmoms
+set nocompatible
+
+" Enable type file detection. Vim will be able to try to detect the type of file in use.
+filetype on
+
+" Enable plugins and load plugin for the detected file type.
+filetype plugin on
+
+" Load an indent file for the detected file type.
+filetype indent on
+
+"Plugin install
+call plug#begin('~/.vim/plugged')
+Plug 'romgrk/doom-one.vim'
+Plug 'sheerun/vim-polyglot'
+Plug 'https://github.com/joshdick/onedark.vim.git'
+call plug#end()
+
+"colorscheme
+syntax on
+"g:onedark_terminal_italics=256
+let g:onedark_terminal_italics=1
+let g:onedark_color_overrides = {
+\ "background": {"gui": "#3a3a3a", "cterm": "235"},
+\ "blue": {"gui": "#0087d7", "cterm": 32},
+\}
+colorscheme onedark
+
+"enable line numbers and number coloring
+set number relativenumber
+set cursorline
+hi cursorline cterm=none term=none
+autocmd WinEnter * setlocal cursorline
+autocmd WinLeave * setlocal nocursorline
+"selected line color
+highlight CursorLineNr cterm=bold ctermfg=157
+"non-selected line colors
+highlight! lineNr ctermfg=99
+
+"Set cursor appereance
+hi Cursor  ctermbg=223
+
+"set default copy clipboard buffer
+set clipboard=unnamedplus
+
+
+"Status line config:
+function! GitBranch()
+  return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+endfunction
+
+function! StatuslineGit()
+  let l:branchname = GitBranch()
+  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
+endfunction
+
+let g:currentmode={
+    \ 'n'  : 'Normal',
+    \ 'no' : 'Normal·Operator Pending',
+    \ 'v'  : 'Visual',
+    \ 'V'  : 'V·Line',
+    \ '^V' : 'V·Block',
+    \ 's'  : 'Select',
+    \ 'S'  : 'S·Line',
+    \ '^S' : 'S·Block',
+    \ 'i'  : 'Insert',
+    \ 'R'  : 'Replace',
+    \ 'Rv' : 'V·Replace',
+    \ 'c'  : 'Command',
+    \ 'cv' : 'Vim Ex',
+    \ 'ce' : 'Ex',
+    \ 'r'  : 'Prompt',
+    \ 'rm' : 'More',
+    \ 'r?' : 'Cofirm',
+    \ '!'  : 'Shell',
+    \ 't'  : 'Terminal'
+    \}
+
+hi User1 cterm=bold ctermfg=black ctermbg=157 guibg=#4e4e4e guifg=#303030
+hi User2 ctermfg=007 ctermbg=238 guibg=#303030 guifg=#adadad
+hi User3 ctermfg=236 ctermbg=238 guibg=#303030 guifg=#303030
+"hi User4 ctermfg=239 ctermbg=238 guibg=#4e4e4e guifg=#4e4e4e
+hi User5 ctermfg=157 ctermbg=238 guibg=#4e4e4e guifg=#adadad
+hi User6 cterm=bold ctermfg=black ctermbg=007 guifg=black guibg=#d7afff
+
+set laststatus=2
+set noshowmode
+set statusline=
+set statusline+=%1*\ %n\                                 " Buffer number
+set statusline+=%1*\ %<%F%m%r%h%w\                      " File path, modified, readonly, helpfile, preview
+set statusline+=%6*\ %{StatuslineGit()}
+set statusline+=%=                                       " Right Side
+set statusline+=%2*\ %Y\                                 " FileType
+set statusline+=%3*│                                     " Separator
+"set statusline+=%2*\ %{''.(&fenc!=''?&fenc:&enc).''}     " Encoding
+"set statusline+=\ (%{&ff})                               " FileFormat (dos/unix..)
+set statusline+=%5*\ col:\ %02v\                         " Colomn number
+set statusline+=%5*│                                     " Separator
+set statusline+=%5*\ ln:\ %02l/%L\ (%3p%%)\              " Line number / total lines, percentage of document
+set statusline+=%0*\ %{toupper(g:currentmode[mode()])}\  " The current mode
+
+
+"disable using spaces for tabs spaces
+set autoindent
+set noexpandtab
+set tabstop=4
+set shiftwidth=4
+
+"always 16lines between the cursor and top, bottom of window
+set scrolloff=16
+
+"highlight matching charatcers during search, higlighting when typing
+"(incsearch)
+set incsearch
+set hlsearch
+set showmatch
+
+"show partial command you type in the last line of the screen
+set showcmd
+
+"show the mode you are already in on the last line
+"set showmode
+
+"AUTOCOMPLETITION WHEN SEARCHING FOR FILES
+
+" Enable auto completion menu after pressing TAB.
+set wildmenu
+
+" Make wildmenu behave like similar to Bash completion.
+set wildmode=list:longest
+
+" There are certain files that we would never want to edit with Vim.
+" Wildmenu will ignore files with these extensions.
+set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
+
+" Commands after opening, setting two tabs, both with vsplits tabs, second tab
+" with terminal in it
+""vsplit
+""tab new
+""vsplit
+""tabprev
+
